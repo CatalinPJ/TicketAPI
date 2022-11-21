@@ -11,15 +11,15 @@ namespace TicketAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    public class AuthenticationController : ControllerBase
     {
 
-        private readonly ILogger<UsersController> _logger;
+        private readonly ILogger<AuthenticationController> _logger;
         private readonly IUserService _userService;
 
-        private static User nuser = new User();
+        private static User nuser = new();
 
-        public UsersController(ILogger<UsersController> logger, IUserService userService)
+        public AuthenticationController(ILogger<AuthenticationController> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
@@ -49,7 +49,7 @@ namespace TicketAPI.Controllers
             string token = CreateToken(nuser);
 
 
-            return Ok(token);
+            return Ok(new { token = token });
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
