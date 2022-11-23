@@ -19,4 +19,8 @@ export class TicketService {
   getById(id: string) {
     return this.http.get<any>(`${this.apiUrl}/tickets/${id}`);
   }
+
+  getDatasources() {
+    return this.http.get<any>(`${this.apiUrl}/tickets/datasources`);
+  }
 }

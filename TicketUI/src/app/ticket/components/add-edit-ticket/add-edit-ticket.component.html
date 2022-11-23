@@ -1,9 +1,9 @@
 <div id="form-content">
   <div class="long-title">
-    <h3>{{title}}</h3>
+    <h3>{{ title }}</h3>
   </div>
   <form>
-    <dx-form id="form" [colCount]="1" [formData]="ticket">
+    <dx-form id="form" [colCount]="1" [formData]="ticket" *ngIf="ticket">
       <dxi-item dataField="name" class="txt-input">
         <dxi-validation-rule
           type="required"
@@ -12,11 +12,48 @@
       </dxi-item>
 
       <dxi-item>
+        <dx-select-box
+          [items]="ticketDatasources.priorities"
+          displayExpr="name"
+          valueExpr="name"
+          [(value)]="ticket.priority.name"
+        ></dx-select-box>
+      </dxi-item>
+
+      <dxi-item>
+        <dx-select-box
+          [items]="ticketDatasources.serviceTypes"
+          displayExpr="name"
+          valueExpr="name"
+          [(value)]="ticket.serviceType.name"
+        ></dx-select-box>
+      </dxi-item>
+
+      <dxi-item>
+        <dx-select-box
+          [items]="ticketDatasources.ticketStatuses"
+          displayExpr="name"
+          valueExpr="name"
+          [(value)]="ticket.status.name"
+        ></dx-select-box>
+      </dxi-item>
+
+      <dxi-item>
+        <dx-select-box
+          [items]="ticketDatasources.ticketTypes"
+          displayExpr="name"
+          valueExpr="name"
+          [(value)]="ticket.type.name"
+        ></dx-select-box>
+      </dxi-item>
+
+      <dxi-item>
         <dx-button
           stylingMode="contained"
           text="Save"
           type="normal"
           width="100%"
+          (onClick)="onSave()"
         >
         </dx-button>
       </dxi-item>

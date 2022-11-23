@@ -14,6 +14,8 @@ export class AddEditTicketComponent implements OnInit {
   title: string = '';
   editMode: boolean = false;
 
+  ticketDatasources: any = {};
+
   constructor(
     private route: ActivatedRoute,
     private ticketService: TicketService
@@ -24,8 +26,19 @@ export class AddEditTicketComponent implements OnInit {
     if (id !== null)
       this.ticket = await firstValueFrom(this.ticketService.getById(id));
 
-      console.log(this.ticket);
+    console.log(this.ticket);
+
+    this.ticketDatasources = await firstValueFrom(
+      this.ticketService.getDatasources()
+    );
+
+    console.log(this.ticketDatasources);
+
     this.editMode = isDefined(this.ticket);
     this.title = this.editMode === true ? 'Edit ticket' : 'Create ticket';
+  }
+
+  onSave() {
+    console.log(this.ticket);
   }
 }
