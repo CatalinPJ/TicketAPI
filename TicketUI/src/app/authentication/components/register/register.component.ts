@@ -5,10 +5,9 @@ import { AuthenticationService } from '../../services/authentication.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-
   loginForm: any = {};
 
   buttonOptions: any = {
@@ -32,5 +31,7 @@ export class RegisterComponent implements OnInit {
     });
     //
   }
-
+  navigateToLogin(e: any) {
+    this.router.navigate(['login']);
+  }
 }

@@ -1,4 +1,5 @@
 using TicketAPI.Extensions;
+using TicketAPI.Persistence.Repositories;
 using TicketAPI.Services.Contracts;
 using TicketAPI.Services.Implementations;
 
@@ -11,6 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddTransient<ITicketRepository, TicketRepository>();
+builder.Services.AddTransient<ITicketService, TicketService>();
 builder.Services.AddTransient<IUserService, UserService>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

@@ -19,12 +19,27 @@
       </dxi-item>
 
       <dxi-item>
+        <p>{{ errorMessage }}</p>
+      </dxi-item>
+
+      <dxi-item>
         <dx-button
           stylingMode="contained"
           text="Login"
           type="normal"
           width="100%"
           (onClick)="onFormSubmit($event)"
+        >
+        </dx-button>
+      </dxi-item>
+
+      <dxi-item>
+        <dx-button
+          stylingMode="contained"
+          text="Register"
+          type="normal"
+          width="100%"
+          (onClick)="navigateToRegister($event)"
         >
         </dx-button>
       </dxi-item>

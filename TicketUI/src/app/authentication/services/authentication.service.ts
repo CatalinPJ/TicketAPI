@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { off } from 'devextreme/events';
-import { map, of, switchMap } from 'rxjs';
+import { map } from 'rxjs';
+import { isDefined } from 'src/app/_common/utils/utils';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class AuthenticationService {
   private user: any | undefined;
 
   constructor(private http: HttpClient) {
+    this.user = localStorage.getItem('user');
     this.apiUrl = environment.apiUrl;
   }
 
@@ -21,6 +22,7 @@ export class AuthenticationService {
       .pipe(
         map((o) => {
           this.user = o;
+          localStorage.setItem('user', JSON.stringify(this.user));
           return this.user;
         })
       );
@@ -31,6 +33,6 @@ export class AuthenticationService {
   }
 
   isLoggedIn() {
-    return this.user !== undefined;
+    return isDefined(this.user);
   }
 }

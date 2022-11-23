@@ -49,7 +49,7 @@ namespace TicketAPI.Controllers
             string token = CreateToken(nuser);
 
 
-            return Ok(new { token = token });
+            return Ok(new { token = token, name = nuser.Username });
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

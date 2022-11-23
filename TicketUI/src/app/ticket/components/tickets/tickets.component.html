@@ -1,1 +1,15 @@
-<p>tickets works!</p>
+<table>
+  <tr>
+    <th>Id</th>
+    <th>Name</th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let ticket of tickets$ | async">
+    <td>{{ ticket.id }}</td>
+    <td>{{ ticket.name }}</td>
+    <td>
+      <dx-button text="Click" (onClick)="goToEditPage(ticket)" >Edit</dx-button>
+      <dx-button text="Click" style="margin-left: 10px">Close</dx-button>
+    </td>
+  </tr>
+</table>
