@@ -2,9 +2,7 @@
 
 namespace TicketAPI.Persistence.Repositories
 {
-    public interface ITicketRepository
+    public interface ITicketRepository: IRepositoryBase<Ticket>
     {
-        IList<Ticket> GetAll ();
-        Ticket GetById(Guid id);
     }
 }

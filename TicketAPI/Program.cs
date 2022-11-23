@@ -1,6 +1,10 @@
+using Microsoft.Extensions.Configuration;
+using System;
 using TicketAPI.Extensions;
+using TicketAPI.Persistence.Database;
 using TicketAPI.Persistence.Repositories;
 using TicketAPI.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 using TicketAPI.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +31,9 @@ builder.Services.AddCors(options =>
                           .AllowAnyHeader();
                       });
 });
+
+builder.Services.AddDbContext<TicketContext>(options =>
+                options.UseInMemoryDatabase("MiaDIBIA"));
 
 var app = builder.Build();
 

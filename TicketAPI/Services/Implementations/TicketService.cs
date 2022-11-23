@@ -19,7 +19,7 @@ namespace TicketAPI.Services.Implementations
 
         public Ticket GetById(Guid id)
         {
-            return _ticketRepository.GetById(id);
+            return _ticketRepository.FirstOrDefault(o=>o.Id == id);
         }
     }
 }
