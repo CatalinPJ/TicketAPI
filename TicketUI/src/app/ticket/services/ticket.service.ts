@@ -20,6 +20,14 @@ export class TicketService {
     return this.http.get<any>(`${this.apiUrl}/tickets/${id}`);
   }
 
+  create(ticket: any){
+    return this.http.post(`${this.apiUrl}/tickets`, ticket);
+  }
+
+  update(ticket: any){
+    return this.http.put(`${this.apiUrl}/tickets`, ticket);
+  }
+
   getDatasources() {
     return this.http.get<any>(`${this.apiUrl}/tickets/datasources`);
   }

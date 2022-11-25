@@ -6,6 +6,8 @@ namespace TicketAPI.Services.Contracts
     {
         IEnumerable<Ticket> GetAll();
         Ticket GetById(Guid id);
+        void Create(Ticket ticket);
+        void Update(Ticket ticket);
         object GetDatasources();
     }
 }

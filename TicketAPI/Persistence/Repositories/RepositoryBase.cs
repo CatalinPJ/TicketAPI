@@ -31,11 +31,13 @@ namespace TicketAPI.Persistence.Repositories
         public void Create(T entity)
         {
             TicketContext.Set<T>().Add(entity);
+            TicketContext.SaveChanges();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             TicketContext.Set<T>().Update(entity);
+            TicketContext.SaveChanges();
         }
 
         public void Delete(T entity)

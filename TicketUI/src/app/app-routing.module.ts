@@ -22,6 +22,11 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'create',
+    component: AddEditTicketComponent,
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'edit/:id',
     component: AddEditTicketComponent,
     canActivate: [AuthGuard],

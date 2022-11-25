@@ -10,7 +10,20 @@ import { TicketService } from '../../services/ticket.service';
   styleUrls: ['./add-edit-ticket.component.scss'],
 })
 export class AddEditTicketComponent implements OnInit {
-  ticket: any;
+  ticket: any = {
+    priority: {
+      name: '',
+    },
+    serviceType: {
+      name: '',
+    },
+    status: {
+      name: '',
+    },
+    type: {
+      name: '',
+    },
+  };
   title: string = '';
   editMode: boolean = false;
 
@@ -24,8 +37,11 @@ export class AddEditTicketComponent implements OnInit {
   async ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id !== null)
-      this.ticket = await firstValueFrom(this.ticketService.getById(id));
+      var t = await firstValueFrom(this.ticketService.getById(id));
 
+    if (isDefined(t)) {
+      this.ticket = t;
+    }
     console.log(this.ticket);
 
     this.ticketDatasources = await firstValueFrom(
@@ -34,11 +50,20 @@ export class AddEditTicketComponent implements OnInit {
 
     console.log(this.ticketDatasources);
 
-    this.editMode = isDefined(this.ticket);
+    this.editMode = isDefined(this.ticket.id);
     this.title = this.editMode === true ? 'Edit ticket' : 'Create ticket';
   }
 
   onSave() {
     console.log(this.ticket);
+    if (this.ticket.id) {
+      this.ticketService.update(this.ticket).subscribe((o) => {
+        console.log(this.ticket);
+      });
+    } else {
+      this.ticketService.create(this.ticket).subscribe((o) => {
+        console.log(this.ticket);
+      });
+    }
   }
 }

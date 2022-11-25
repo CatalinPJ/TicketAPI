@@ -33,6 +33,22 @@ namespace TicketAPI.Controllers
             return Ok(_ticketService.GetById(id));
         }
 
+        [HttpPost]
+        //[Authorize]
+        public ActionResult<Ticket> Create(Ticket ticket)
+        {
+            _ticketService.Create(ticket);
+            return Ok(ticket);
+        }
+
+        [HttpPut]
+        //[Authorize]
+        public ActionResult<Ticket> Update(Ticket ticket)
+        {
+            _ticketService.Update(ticket);
+            return Ok(ticket);
+        }
+
         [HttpGet]
         [Route("datasources")]
         //[Authorize]

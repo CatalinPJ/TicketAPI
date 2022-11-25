@@ -35,5 +35,16 @@ namespace TicketAPI.Services.Implementations
                 TicketStatuses = new List<TicketStatus> { new TicketStatus { Name = "Opened" }, new TicketStatus { Name = "Closed" } },
             };
         }
+
+        public void Create(Ticket ticket)
+        {
+            _ticketRepository.Create(ticket);
+        }
+
+
+        public void Update(Ticket ticket)
+        {
+            _ticketRepository.Update(ticket);
+        }
     }
 }

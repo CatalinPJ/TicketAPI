@@ -9,38 +9,35 @@ namespace TicketAPI.Persistence.Repositories
 {
     public class TicketRepository : RepositoryBase<Ticket>, ITicketRepository
     {
-        private readonly IList<Ticket> _ticketList;
+        private readonly TicketContext _ticketContext;
+
         public TicketRepository(TicketContext ticketContext) : base(ticketContext)
         {
-            _ticketList = new List<Ticket>
-            {
-                new Ticket {
-                    Id = Guid.Parse("25cf10cb-033b-463c-8ff5-0909311feb89"),
-                    Name = "Ticket1",
-                    Priority = new Priority { Name = "High" },
-                    Status = new TicketStatus { Name = "Opened" },
-                    ServiceType = new ServiceType { Name = "SV2" },
-                    Type = new TicketType { Name = "VPN" }
-                },
-
-                new Ticket {
-                    Id = Guid.Parse("af2fbc62-8200-43da-a3b6-890cf173fc15"), 
-                    Name = "Ticket2",
-                    Priority = new Priority { Name = "Low" },
-                    Status = new TicketStatus { Name = "Closed" },
-                    ServiceType = new ServiceType { Name = "SV5" },
-                    Type = new TicketType { Name = "Applications" }}
-            };
+            _ticketContext = ticketContext;
         }
 
         public override IQueryable<Ticket> GetAll()
         {
-            return _ticketList.AsQueryable();
+            return _ticketContext.Tickets.AsQueryable();
         }
 
         public override Ticket FirstOrDefault(Expression<Func<Ticket, bool>> expression)
         {
-            return _ticketList.AsQueryable().FirstOrDefault(expression);
+            return _ticketContext.Tickets.FirstOrDefault(expression);
+        }
+
+        public override void Update(Ticket ticket)
+        {
+            var exTicket = _ticketContext.Tickets.FirstOrDefault(o => o.Id == ticket.Id);
+            if (exTicket != null)
+            {
+                exTicket.Status = ticket.Status;
+                exTicket.Priority = ticket.Priority;
+                exTicket.ServiceType = ticket.ServiceType;
+                exTicket.Name = ticket.Name;
+                exTicket.Type = ticket.Type;
+            }
+            _ticketContext.SaveChanges();
         }
         //public Ticket GetById(Guid id)
         //{
