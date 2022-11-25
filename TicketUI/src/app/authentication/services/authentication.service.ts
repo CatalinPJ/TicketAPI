@@ -12,7 +12,8 @@ export class AuthenticationService {
   private user: any | undefined;
 
   constructor(private http: HttpClient) {
-    this.user = localStorage.getItem('user');
+    const userJson = localStorage.getItem('user');
+    if (userJson) this.user = JSON.parse(userJson);
     this.apiUrl = environment.apiUrl;
   }
 
@@ -34,5 +35,9 @@ export class AuthenticationService {
 
   isLoggedIn() {
     return isDefined(this.user);
+  }
+
+  getToken() {
+    return this.user?.token;
   }
 }

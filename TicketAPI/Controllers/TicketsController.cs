@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TicketAPI.DTOs.Ticket;
 using TicketAPI.Persistence.Models;
 using TicketAPI.Services.Contracts;
@@ -20,7 +21,7 @@ namespace TicketAPI.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         public ActionResult<Ticket> GetAll()
         {
             return Ok(_ticketService.GetAll());

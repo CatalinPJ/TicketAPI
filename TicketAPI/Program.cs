@@ -4,6 +4,10 @@ using TicketAPI.Persistence.Repositories;
 using TicketAPI.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using TicketAPI.Services.Implementations;
+using Microsoft.AspNetCore.Server.IISIntegration;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +36,25 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<TicketContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TicketsDB")));
+
+var key = Encoding.ASCII.GetBytes("my top secret key");
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
 
 var app = builder.Build();
 
