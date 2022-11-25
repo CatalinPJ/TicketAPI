@@ -56,6 +56,10 @@ export class AddEditTicketComponent implements OnInit {
 
   onSave() {
     console.log(this.ticket);
+    this.ticket.priority = null;
+    this.ticket.serviceType = null;
+    this.ticket.type = null;
+    this.ticket.status = null;
     if (this.ticket.id) {
       this.ticketService.update(this.ticket).subscribe((o) => {
         console.log(this.ticket);

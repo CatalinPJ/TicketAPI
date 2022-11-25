@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TicketAPI.DTOs.Ticket;
 using TicketAPI.Persistence.Models;
 using TicketAPI.Services.Contracts;
 
@@ -35,18 +36,18 @@ namespace TicketAPI.Controllers
 
         [HttpPost]
         //[Authorize]
-        public ActionResult<Ticket> Create(Ticket ticket)
+        public ActionResult<Ticket> Create(AddTicketDTO addTicketDTO)
         {
-            _ticketService.Create(ticket);
-            return Ok(ticket);
+            _ticketService.Create(addTicketDTO);
+            return Ok(addTicketDTO);
         }
 
         [HttpPut]
         //[Authorize]
-        public ActionResult<Ticket> Update(Ticket ticket)
+        public ActionResult<Ticket> Update(EditTicketDTO editTicketDTO)
         {
-            _ticketService.Update(ticket);
-            return Ok(ticket);
+            _ticketService.Update(editTicketDTO);
+            return Ok(editTicketDTO);
         }
 
         [HttpGet]

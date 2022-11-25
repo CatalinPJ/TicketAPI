@@ -2,7 +2,8 @@
 
 namespace TicketAPI.Persistence.Repositories
 {
-    public interface ITicketRepository: IRepositoryBase<Ticket>
+    public interface ITicketRepository : IRepositoryBase<Ticket>
     {
+        object GetDatasources();
     }
 }

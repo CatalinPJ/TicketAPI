@@ -2,6 +2,9 @@
 using TicketAPI.Persistence.Repositories;
 using TicketAPI.Services.Contracts;
 using TicketAPI.Persistence.Models.DataSources;
+using TicketAPI.DTOs.Ticket;
+using System.Net.Sockets;
+using TicketAPI.Persistence.Database;
 
 namespace TicketAPI.Services.Implementations
 {
@@ -27,24 +30,36 @@ namespace TicketAPI.Services.Implementations
 
         public object GetDatasources()
         {
-            return new
-            {
-                Priorities = new List<Priority> { new Priority { Name = "High" }, new Priority { Name = "Low" } },
-                TicketTypes = new List<TicketType> { new TicketType { Name = "VPN" }, new TicketType { Name = "Applications" } },
-                ServiceTypes = new List<ServiceType> { new ServiceType { Name = "SV2" }, new ServiceType { Name = "SV5" } },
-                TicketStatuses = new List<TicketStatus> { new TicketStatus { Name = "Opened" }, new TicketStatus { Name = "Closed" } },
-            };
+            return _ticketRepository.GetDatasources();
         }
 
-        public void Create(Ticket ticket)
+        public void Create(AddTicketDTO addTicketDTO)
         {
+            var ticket = new Ticket
+            {
+                Name = addTicketDTO.Name,
+                PriorityId = addTicketDTO.PriorityId,
+                ServiceTypeId = addTicketDTO.ServiceTypeId,
+                StatusId = addTicketDTO.StatusId,
+                TypeId = addTicketDTO.TypeId,
+                CreatedOn = DateTimeOffset.Now
+            };
             _ticketRepository.Create(ticket);
         }
 
 
-        public void Update(Ticket ticket)
+        public void Update(EditTicketDTO editTicketDTO)
         {
-            _ticketRepository.Update(ticket);
+            var exTicket = _ticketRepository.FirstOrDefault(o => o.Id == editTicketDTO.Id);
+            if (exTicket != null)
+            {
+                exTicket.StatusId = editTicketDTO.StatusId;
+                exTicket.PriorityId = editTicketDTO.PriorityId;
+                exTicket.ServiceTypeId = editTicketDTO.ServiceTypeId;
+                exTicket.Name = editTicketDTO.Name;
+                exTicket.TypeId = editTicketDTO.TypeId;
+            }
+            _ticketRepository.Update(exTicket);
         }
     }
 }

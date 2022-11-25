@@ -15,8 +15,8 @@
         <dx-select-box
           [items]="ticketDatasources.priorities"
           displayExpr="name"
-          valueExpr="name"
-          [(value)]="ticket.priority.name"
+          valueExpr="id"
+          [(value)]="ticket.priorityId"
         ></dx-select-box>
       </dxi-item>
 
@@ -24,8 +24,8 @@
         <dx-select-box
           [items]="ticketDatasources.serviceTypes"
           displayExpr="name"
-          valueExpr="name"
-          [(value)]="ticket.serviceType.name"
+          valueExpr="id"
+          [(value)]="ticket.serviceTypeId"
         ></dx-select-box>
       </dxi-item>
 
@@ -33,8 +33,8 @@
         <dx-select-box
           [items]="ticketDatasources.ticketStatuses"
           displayExpr="name"
-          valueExpr="name"
-          [(value)]="ticket.status.name"
+          valueExpr="id"
+          [(value)]="ticket.statusId"
         ></dx-select-box>
       </dxi-item>
 
@@ -42,8 +42,8 @@
         <dx-select-box
           [items]="ticketDatasources.ticketTypes"
           displayExpr="name"
-          valueExpr="name"
-          [(value)]="ticket.type.name"
+          valueExpr="id"
+          [(value)]="ticket.typeId"
         ></dx-select-box>
       </dxi-item>
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Sockets;
 using TicketAPI.Persistence.Database;
@@ -23,21 +24,18 @@ namespace TicketAPI.Persistence.Repositories
 
         public override Ticket FirstOrDefault(Expression<Func<Ticket, bool>> expression)
         {
-            return _ticketContext.Tickets.FirstOrDefault(expression);
+            return _ticketContext.Tickets.Include(o => o.ServiceType).Include(o => o.Status).Include(o => o.Priority).Include(o => o.Type).FirstOrDefault(expression);
         }
 
-        public override void Update(Ticket ticket)
+        public object GetDatasources()
         {
-            var exTicket = _ticketContext.Tickets.FirstOrDefault(o => o.Id == ticket.Id);
-            if (exTicket != null)
+            return new
             {
-                exTicket.Status = ticket.Status;
-                exTicket.Priority = ticket.Priority;
-                exTicket.ServiceType = ticket.ServiceType;
-                exTicket.Name = ticket.Name;
-                exTicket.Type = ticket.Type;
-            }
-            _ticketContext.SaveChanges();
+                Priorities = TicketContext.Priorities.AsQueryable(),
+                TicketTypes = TicketContext.TicketTypes.AsQueryable(),
+                ServiceTypes = TicketContext.ServiceTypes.AsQueryable(),
+                TicketStatuses = TicketContext.TicketStatuses.AsQueryable(),
+            };
         }
         //public Ticket GetById(Guid id)
         //{

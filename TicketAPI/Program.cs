@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using System;
 using TicketAPI.Extensions;
 using TicketAPI.Persistence.Database;
 using TicketAPI.Persistence.Repositories;
@@ -33,7 +31,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<TicketContext>(options =>
-                options.UseInMemoryDatabase("MiaDIBIA"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("TicketsDB")));
 
 var app = builder.Build();
 
