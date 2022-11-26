@@ -5,6 +5,7 @@ using TicketAPI.DTOs.Ticket;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TicketAPI.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace TicketAPI.Services.Implementations
 {
@@ -19,7 +20,9 @@ namespace TicketAPI.Services.Implementations
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AddTicketDTO, Ticket>();
-                cfg.CreateMap<EditTicketDTO, Ticket>();
+
+                cfg.CreateMap<EditTicketDTO, Ticket>().ForMember(o => o.Customer, act => act.Ignore());
+
                 cfg.CreateMap<Ticket, ViewTicketDTO>()
                 .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.Name))
                 .ForMember(dest => dest.Priority, opt => opt.MapFrom(src => src.Priority.Name))
@@ -80,8 +83,9 @@ namespace TicketAPI.Services.Implementations
         {
             try
             {
-                var exTicket = _mapper.Map<Ticket>(editTicketDTO);
-                await _ticketRepository.UpdateAsync(exTicket);
+                var existingTicket = await _ticketRepository.FirstOrDefaultAsync(o => o.Id == editTicketDTO.Id);
+                UpdateTicket(existingTicket, editTicketDTO);
+                await _ticketRepository.UpdateAsync(existingTicket);
                 return new ValidationResult<string> { IsSuccess = true, Result = "Ticket updated" };
             }
             catch (Exception ex)
@@ -114,5 +118,14 @@ namespace TicketAPI.Services.Implementations
             return _ticketRepository.GetDatasources();
         }
 
+        private void UpdateTicket(Ticket existingTicket, EditTicketDTO editTicketDTO)
+        {
+            existingTicket.StatusId = editTicketDTO.StatusId;
+            existingTicket.PriorityId = editTicketDTO.PriorityId;
+            existingTicket.TypeId = editTicketDTO.TypeId;
+            existingTicket.ServiceTypeId = editTicketDTO.ServiceTypeId;
+            existingTicket.Subject = editTicketDTO.Subject;
+            existingTicket.Description = editTicketDTO.Description;
+        }
     }
 }

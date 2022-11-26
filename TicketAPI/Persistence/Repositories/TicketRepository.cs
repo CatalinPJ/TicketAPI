@@ -40,6 +40,7 @@ namespace TicketAPI.Persistence.Repositories
         {
             var ticket = await _ticketContext.Tickets.FirstOrDefaultAsync(t => t.Id == id);
             ticket.StatusId = (await TicketContext.TicketStatuses.FirstOrDefaultAsync(t => t.Name == "Closed")).Id;
+            ticket.ClosedOn = DateTimeOffset.Now;
 
             UpdateAsync(ticket);
         }

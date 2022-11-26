@@ -2,17 +2,8 @@
 
 namespace TicketAPI.DTOs.Ticket
 {
-    public class AddTicketDTO
+    public class AddTicketDTO : TicketBaseDTO
     {
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public Guid PriorityId { get; set; }
-        [Required]
-        public Guid ServiceTypeId { get; set; }
-        [Required]
-        public Guid TypeId { get; set; }
-        [Required]
-        public Guid StatusId { get; set; }
+        public string Customer { get; set; }
     }
 }

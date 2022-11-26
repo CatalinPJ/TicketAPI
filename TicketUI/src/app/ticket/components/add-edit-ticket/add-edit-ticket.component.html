@@ -4,10 +4,10 @@
   </div>
   <form>
     <dx-form id="form" [colCount]="1" [formData]="ticket" *ngIf="ticket">
-      <dxi-item dataField="name" class="txt-input">
+      <dxi-item dataField="subject" class="txt-input">
         <dxi-validation-rule
           type="required"
-          message="Name is required"
+          message="Subject is required"
         ></dxi-validation-rule>
       </dxi-item>
 
@@ -46,6 +46,12 @@
           [(value)]="ticket.typeId"
         ></dx-select-box>
       </dxi-item>
+
+      <dxi-item dataField="customer" class="txt-input">
+        <dx-text-box [(value)]="ticket.customer" [readOnly]="editMode"> </dx-text-box>
+      </dxi-item>
+
+      <dxi-item dataField="description" class="txt-input"> </dxi-item>
 
       <dxi-item>
         <dx-button

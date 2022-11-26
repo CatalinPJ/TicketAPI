@@ -8,7 +8,8 @@ import {
   DxFormModule,
   DxDateBoxModule,
   DxButtonModule,
-  DxHtmlEditorModule
+  DxHtmlEditorModule,
+  DxTextBoxModule
 } from 'devextreme-angular';
 
 @NgModule({
@@ -22,6 +23,7 @@ import {
     DxFormModule,
     DxDateBoxModule,
     DxButtonModule,
+    DxTextBoxModule,
     DxHtmlEditorModule
   ],
   exports: [
@@ -32,6 +34,7 @@ import {
     DxFormModule,
     DxDateBoxModule,
     DxButtonModule,
+    DxTextBoxModule,
     DxHtmlEditorModule
   ],
 })
