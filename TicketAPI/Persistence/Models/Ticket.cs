@@ -22,5 +22,7 @@ namespace TicketAPI.Persistence.Models
         public TicketStatus Status { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
         public DateTimeOffset ClosedOn { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }
