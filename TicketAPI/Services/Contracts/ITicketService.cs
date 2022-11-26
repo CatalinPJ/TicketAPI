@@ -1,15 +1,15 @@
 ﻿using TicketAPI.DTOs.Ticket;
-using TicketAPI.Persistence.Models;
+using TicketAPI.Models;
 
 namespace TicketAPI.Services.Contracts
 {
     public interface ITicketService
     {
-        IList<ViewTicketDTO> GetAll();
-        Ticket GetById(Guid id);
-        void Create(AddTicketDTO ticket);
-        void Update(EditTicketDTO ticket);
-        void Close(Guid id);
-        object GetDatasources();
+        ValidationResult<IList<ViewTicketDTO>> GetAll();
+        Task<ValidationResult<ViewTicketDTO>> GetById(Guid id);
+        Task<ValidationResult<string>> Create(AddTicketDTO ticket);
+        Task<ValidationResult<string>> Update(EditTicketDTO ticket);
+        Task<ValidationResult<string>> Close(Guid id);
+        TicketDataSources GetDatasources();
     }
 }

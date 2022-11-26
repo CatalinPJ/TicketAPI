@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Net.Sockets;
+using TicketAPI.DTOs.Ticket;
 using TicketAPI.Persistence.Database;
 using TicketAPI.Persistence.Models;
-using TicketAPI.Persistence.Models.DataSources;
 
 namespace TicketAPI.Persistence.Repositories
 {
@@ -27,22 +25,23 @@ namespace TicketAPI.Persistence.Repositories
             return _ticketContext.Tickets.Include(o => o.ServiceType).Include(o => o.Status).Include(o => o.Priority).Include(o => o.Type).FirstOrDefault(expression);
         }
 
-        public object GetDatasources()
+        public TicketDataSources GetDatasources()
         {
-            return new
+            return new TicketDataSources
             {
                 Priorities = TicketContext.Priorities.AsQueryable(),
                 TicketTypes = TicketContext.TicketTypes.AsQueryable(),
                 ServiceTypes = TicketContext.ServiceTypes.AsQueryable(),
-                TicketStatuses = TicketContext.TicketStatuses.AsQueryable(),
+                TicketStatuses = TicketContext.TicketStatuses.AsQueryable()
             };
         }
 
-        public void Close(Guid id)
+        public async Task Close(Guid id)
         {
-            var ticket = _ticketContext.Tickets.FirstOrDefault(t => t.Id == id);
-            ticket.StatusId = TicketContext.TicketStatuses.FirstOrDefault(t => t.Name == "Closed").Id;
-            Update(ticket);
+            var ticket = await _ticketContext.Tickets.FirstOrDefaultAsync(t => t.Id == id);
+            ticket.StatusId = (await TicketContext.TicketStatuses.FirstOrDefaultAsync(t => t.Name == "Closed")).Id;
+
+            UpdateAsync(ticket);
         }
     }
 }

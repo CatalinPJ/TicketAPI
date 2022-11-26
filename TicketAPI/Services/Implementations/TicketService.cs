@@ -1,12 +1,10 @@
 ﻿using TicketAPI.Persistence.Models;
 using TicketAPI.Persistence.Repositories;
 using TicketAPI.Services.Contracts;
-using TicketAPI.Persistence.Models.DataSources;
 using TicketAPI.DTOs.Ticket;
-using System.Net.Sockets;
-using TicketAPI.Persistence.Database;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using TicketAPI.Models;
 
 namespace TicketAPI.Services.Implementations
 {
@@ -31,40 +29,90 @@ namespace TicketAPI.Services.Implementations
             _mapper = new Mapper(config);
         }
 
-        public IList<ViewTicketDTO> GetAll()
+        public ValidationResult<IList<ViewTicketDTO>> GetAll()
         {
-            var lst = _ticketRepository.GetAll().Include(o => o.Priority).Include(o => o.Type).Include(o => o.ServiceType).Include(o => o.Status);
-            return _mapper.Map<IList<ViewTicketDTO>>(lst);
+            var tickets = _ticketRepository.GetAll().Include(o => o.Priority).Include(o => o.Type).Include(o => o.ServiceType).Include(o => o.Status);
+            var ticketsDTO = _mapper.Map<IList<ViewTicketDTO>>(tickets);
+            return new ValidationResult<IList<ViewTicketDTO>>
+            {
+                IsSuccess = true,
+                Result = ticketsDTO
+            };
         }
 
-        public Ticket GetById(Guid id)
+        public async Task<ValidationResult<ViewTicketDTO>> GetById(Guid id)
         {
-            var ticket = _ticketRepository.FirstOrDefault(o => o.Id == id);
-            return ticket;
+            var ticket = await _ticketRepository.FirstOrDefaultAsync(o => o.Id == id);
+            if (ticket == null)
+                return new ValidationResult<ViewTicketDTO>
+                {
+                    ErrorDetails = new ErrorDetails { StatusCode = StatusCodes.Status404NotFound, Message = "Ticket not found" },
+                    IsSuccess = true
+                };
+
+            var viewTicketDTO = _mapper.Map<ViewTicketDTO>(ticket);
+            return new ValidationResult<ViewTicketDTO>
+            {
+                Result = viewTicketDTO,
+                IsSuccess = true
+            };
         }
 
-        public object GetDatasources()
+        public async Task<ValidationResult<string>> Create(AddTicketDTO addTicketDTO)
+        {
+            try
+            {
+                var ticket = _mapper.Map<Ticket>(addTicketDTO);
+                ticket.CreatedOn = DateTimeOffset.Now;
+                await _ticketRepository.CreateAsync(ticket);
+                return new ValidationResult<string> { IsSuccess = true, Result = "Ticket created" };
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult<string>
+                {
+                    ErrorDetails = new ErrorDetails { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message },
+                };
+            }
+        }
+
+        public async Task<ValidationResult<string>> Update(EditTicketDTO editTicketDTO)
+        {
+            try
+            {
+                var exTicket = _mapper.Map<Ticket>(editTicketDTO);
+                await _ticketRepository.UpdateAsync(exTicket);
+                return new ValidationResult<string> { IsSuccess = true, Result = "Ticket updated" };
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult<string>
+                {
+                    ErrorDetails = new ErrorDetails { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message },
+                };
+            }
+        }
+
+        public async Task<ValidationResult<string>> Close(Guid id)
+        {
+            try
+            {
+                await _ticketRepository.Close(id);
+                return new ValidationResult<string> { IsSuccess = true, Result = "Ticket closed" };
+            }
+            catch (Exception ex)
+            {
+                return new ValidationResult<string>
+                {
+                    ErrorDetails = new ErrorDetails { StatusCode = StatusCodes.Status400BadRequest, Message = ex.Message },
+                };
+            }
+        }
+
+        public TicketDataSources GetDatasources()
         {
             return _ticketRepository.GetDatasources();
         }
 
-        public void Create(AddTicketDTO addTicketDTO)
-        {
-            var ticket = _mapper.Map<Ticket>(addTicketDTO);
-            ticket.CreatedOn = DateTimeOffset.Now;
-            _ticketRepository.Create(ticket);
-        }
-
-
-        public void Update(EditTicketDTO editTicketDTO)
-        {
-            var exTicket = _mapper.Map<Ticket>(editTicketDTO);
-            _ticketRepository.Update(exTicket);
-        }
-
-        public void Close(Guid id)
-        {
-            _ticketRepository.Close(id);
-        }
     }
 }

@@ -1,10 +1,11 @@
 ﻿using TicketAPI.DTOs.User;
-using TicketAPI.Persistence.Models;
+using TicketAPI.Models;
 
 namespace TicketAPI.Services.Contracts
 {
     public interface IUserService
     {
-        User RegisterUser(RegisterUserDTO registerUserDTO);
+        Task<ValidationResult<string>> RegisterUser(RegisterUserDTO registerUserDTO);
+        Task<ValidationResult<UserDTO>> Login(LoginUserDTO loginUserDTO);
     }
 }

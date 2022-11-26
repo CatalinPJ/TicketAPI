@@ -27,11 +27,21 @@ namespace TicketAPI.Persistence.Repositories
         {
             return TicketContext.Set<T>().FirstOrDefault(expression);
         }
+        public virtual Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> expression)
+        {
+            return TicketContext.Set<T>().FirstOrDefaultAsync(expression);
+        }
 
         public void Create(T entity)
         {
             TicketContext.Set<T>().Add(entity);
             TicketContext.SaveChanges();
+        }
+
+        public async Task CreateAsync(T entity)
+        {
+            TicketContext.Set<T>().Add(entity);
+            await TicketContext.SaveChangesAsync();
         }
 
         public virtual void Update(T entity)
@@ -40,9 +50,22 @@ namespace TicketAPI.Persistence.Repositories
             TicketContext.SaveChanges();
         }
 
+        public async Task UpdateAsync(T entity)
+        {
+            TicketContext.Set<T>().Update(entity);
+            await TicketContext.SaveChangesAsync();
+        }
+
         public void Delete(T entity)
         {
             TicketContext.Set<T>().Remove(entity);
+            TicketContext.SaveChanges();
+        }
+
+        public async Task DeleteAsync(T entity)
+        {
+            TicketContext.Set<T>().Remove(entity);
+            await TicketContext.SaveChangesAsync();
         }
     }
 }
