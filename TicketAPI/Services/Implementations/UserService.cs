@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text;
 using TicketAPI.DTOs.User;
 using TicketAPI.Models;
 using TicketAPI.Persistence.Models;
@@ -13,10 +14,12 @@ namespace TicketAPI.Services.Implementations
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IConfiguration _configuration;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IConfiguration configuration)
         {
             _userRepository = userRepository;
+            _configuration = configuration;
         }
         public async Task<ValidationResult<string>> RegisterUser(RegisterUserDTO registerUserDTO)
         {
@@ -88,8 +91,8 @@ namespace TicketAPI.Services.Implementations
                 new Claim(ClaimTypes.Name, user.Username)
             };
 
-            var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-               "my top secret key"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+               _configuration.GetSection("Authorization").GetValue("Secret", string.Empty)));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 

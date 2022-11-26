@@ -15,7 +15,8 @@ builder.Services.AddCustomCors(customOriginName);
 builder.Services.AddDbContext<TicketContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("TicketsDB")));
 
-builder.Services.AddCustomAuthorization();
+var secretKey = builder.Configuration.GetSection("Authorization").GetValue("Secret", string.Empty);
+builder.Services.AddCustomAuthorization(secretKey);
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

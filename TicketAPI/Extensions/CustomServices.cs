@@ -31,9 +31,9 @@ namespace TicketAPI.Extensions
                                   });
             });
         }
-        public static void AddCustomAuthorization(this IServiceCollection services)
+        public static void AddCustomAuthorization(this IServiceCollection services, string secretKey)
         {
-            var key = Encoding.ASCII.GetBytes("my top secret key");
+            var key = Encoding.ASCII.GetBytes(secretKey);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
