@@ -37,9 +37,12 @@ namespace TicketAPI.Persistence.Repositories
                 TicketStatuses = TicketContext.TicketStatuses.AsQueryable(),
             };
         }
-        //public Ticket GetById(Guid id)
-        //{
-        //    return _ticketList.FirstOrDefault(o => o.Id == id);
-        //}
+
+        public void Close(Guid id)
+        {
+            var ticket = _ticketContext.Tickets.FirstOrDefault(t => t.Id == id);
+            ticket.StatusId = TicketContext.TicketStatuses.FirstOrDefault(t => t.Name == "Closed").Id;
+            Update(ticket);
+        }
     }
 }

@@ -11,7 +11,7 @@
         ></dxi-validation-rule>
       </dxi-item>
 
-      <dxi-item>
+      <dxi-item dataField="priority">
         <dx-select-box
           [items]="ticketDatasources.priorities"
           displayExpr="name"
@@ -20,7 +20,7 @@
         ></dx-select-box>
       </dxi-item>
 
-      <dxi-item>
+      <dxi-item dataField="serviceType">
         <dx-select-box
           [items]="ticketDatasources.serviceTypes"
           displayExpr="name"
@@ -29,7 +29,7 @@
         ></dx-select-box>
       </dxi-item>
 
-      <dxi-item>
+      <dxi-item dataField="status">
         <dx-select-box
           [items]="ticketDatasources.ticketStatuses"
           displayExpr="name"
@@ -38,7 +38,7 @@
         ></dx-select-box>
       </dxi-item>
 
-      <dxi-item>
+      <dxi-item dataField="type">
         <dx-select-box
           [items]="ticketDatasources.ticketTypes"
           displayExpr="name"

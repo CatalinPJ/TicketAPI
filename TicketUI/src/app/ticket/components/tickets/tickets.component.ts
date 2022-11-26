@@ -19,4 +19,12 @@ export class TicketsComponent implements OnInit {
   goToEditPage(e: any) {
     this.router.navigate([`edit/${e.id}`]);
   }
+
+  goToAddPage() {
+    this.router.navigate([`create`]);
+  }
+
+  closeTicket(e: any) {
+    this.ticketService.close(e.id).subscribe((o) => {});
+  }
 }

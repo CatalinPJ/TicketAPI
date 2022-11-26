@@ -1,15 +1,26 @@
 <table>
   <tr>
-    <th>Id</th>
     <th>Name</th>
+    <th>Priority</th>
+    <th>Status</th>
+    <th>Service Type</th>
+    <th>Type</th>
     <th></th>
   </tr>
   <tr *ngFor="let ticket of tickets$ | async">
-    <td>{{ ticket.id }}</td>
     <td>{{ ticket.name }}</td>
+    <td>{{ ticket.priority }}</td>
+    <td>{{ ticket.status }}</td>
+    <td>{{ ticket.serviceType }}</td>
+    <td>{{ ticket.type }}</td>
     <td>
-      <dx-button text="Click" (onClick)="goToEditPage(ticket)" >Edit</dx-button>
-      <dx-button text="Click" style="margin-left: 10px">Close</dx-button>
+      <dx-button (onClick)="goToEditPage(ticket)">Edit</dx-button>
+      <dx-button (onClick)="closeTicket(ticket)" style="margin-left: 10px"
+        >Close</dx-button
+      >
     </td>
   </tr>
 </table>
+
+<br />
+<dx-button (onClick)="goToAddPage()"> Add</dx-button>

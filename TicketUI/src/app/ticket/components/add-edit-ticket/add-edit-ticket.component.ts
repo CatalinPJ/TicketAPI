@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { isDefined } from 'src/app/_common/utils/utils';
 import { TicketService } from '../../services/ticket.service';
@@ -10,20 +10,7 @@ import { TicketService } from '../../services/ticket.service';
   styleUrls: ['./add-edit-ticket.component.scss'],
 })
 export class AddEditTicketComponent implements OnInit {
-  ticket: any = {
-    priority: {
-      name: '',
-    },
-    serviceType: {
-      name: '',
-    },
-    status: {
-      name: '',
-    },
-    type: {
-      name: '',
-    },
-  };
+  ticket: any = {};
   title: string = '';
   editMode: boolean = false;
 
@@ -31,6 +18,7 @@ export class AddEditTicketComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private ticketService: TicketService
   ) {}
 
@@ -63,10 +51,12 @@ export class AddEditTicketComponent implements OnInit {
     if (this.ticket.id) {
       this.ticketService.update(this.ticket).subscribe((o) => {
         console.log(this.ticket);
+        this.router.navigate([``]);
       });
     } else {
       this.ticketService.create(this.ticket).subscribe((o) => {
         console.log(this.ticket);
+        this.router.navigate([``]);
       });
     }
   }

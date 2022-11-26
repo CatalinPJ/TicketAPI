@@ -5,10 +5,11 @@ namespace TicketAPI.Services.Contracts
 {
     public interface ITicketService
     {
-        IEnumerable<Ticket> GetAll();
+        IList<ViewTicketDTO> GetAll();
         Ticket GetById(Guid id);
         void Create(AddTicketDTO ticket);
         void Update(EditTicketDTO ticket);
+        void Close(Guid id);
         object GetDatasources();
     }
 }

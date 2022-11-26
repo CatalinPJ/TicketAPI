@@ -22,21 +22,21 @@ namespace TicketAPI.Controllers
 
         [HttpGet]
         [Authorize]
-        public ActionResult<Ticket> GetAll()
+        public ActionResult<IEnumerable<ViewTicketDTO>> GetAll()
         {
             return Ok(_ticketService.GetAll());
         }
 
         [HttpGet]
         [Route("{id}")]
-        //[Authorize]
+        [Authorize]
         public ActionResult<Ticket> GetById(Guid id)
         {
             return Ok(_ticketService.GetById(id));
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         public ActionResult<Ticket> Create(AddTicketDTO addTicketDTO)
         {
             _ticketService.Create(addTicketDTO);
@@ -44,16 +44,24 @@ namespace TicketAPI.Controllers
         }
 
         [HttpPut]
-        //[Authorize]
+        [Authorize]
         public ActionResult<Ticket> Update(EditTicketDTO editTicketDTO)
         {
             _ticketService.Update(editTicketDTO);
             return Ok(editTicketDTO);
         }
 
+        [HttpPut]
+        [Route("close")]
+        [Authorize]
+        public ActionResult<Ticket> Close(Guid id)
+        {
+            _ticketService.Close(id);
+            return Ok();
+        }
+
         [HttpGet]
         [Route("datasources")]
-        //[Authorize]
         public ActionResult<Ticket> GetDatasources()
         {
             return Ok(_ticketService.GetDatasources());
