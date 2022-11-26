@@ -57,7 +57,7 @@ namespace TicketAPI.Services.Implementations
             }
             string token = CreateToken(user);
 
-            return new ValidationResult<UserDTO> { IsSuccess = true, Result = new UserDTO { Token = token, Username = user.Username } };
+            return new ValidationResult<UserDTO> { IsSuccess = true, Result = new UserDTO { Token = token, Username = user.Username, Id = user.Id} };
         }
 
         private User GetRegisteredUser(RegisterUserDTO registerUserDTO)
@@ -88,7 +88,8 @@ namespace TicketAPI.Services.Implementations
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

@@ -5,7 +5,6 @@ using TicketAPI.DTOs.Ticket;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TicketAPI.Models;
-using Microsoft.IdentityModel.Tokens;
 
 namespace TicketAPI.Services.Implementations
 {
@@ -32,9 +31,14 @@ namespace TicketAPI.Services.Implementations
             _mapper = new Mapper(config);
         }
 
-        public ValidationResult<IList<ViewTicketDTO>> GetAll()
+        public ValidationResult<IList<ViewTicketDTO>> GetAll(Guid id)
         {
-            var tickets = _ticketRepository.GetAll().Include(o => o.Priority).Include(o => o.Type).Include(o => o.ServiceType).Include(o => o.Status);
+            var tickets = _ticketRepository.GetAll()
+                .Include(o => o.Priority)
+                .Include(o => o.Type)
+                .Include(o => o.ServiceType)
+                .Include(o => o.Status)
+                .Where(o => o.UserId == id && o.Status.Name != "Closed");
             var ticketsDTO = _mapper.Map<IList<ViewTicketDTO>>(tickets);
             return new ValidationResult<IList<ViewTicketDTO>>
             {

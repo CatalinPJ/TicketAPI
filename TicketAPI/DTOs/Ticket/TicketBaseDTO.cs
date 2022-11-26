@@ -15,5 +15,6 @@ namespace TicketAPI.DTOs.Ticket
         [Required]
         public Guid StatusId { get; set; }
         public string Description { get; set; }
+        public Guid UserId { get; set; }
     }
 }

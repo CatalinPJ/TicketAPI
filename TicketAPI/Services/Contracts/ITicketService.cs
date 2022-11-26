@@ -5,7 +5,7 @@ namespace TicketAPI.Services.Contracts
 {
     public interface ITicketService
     {
-        ValidationResult<IList<ViewTicketDTO>> GetAll();
+        ValidationResult<IList<ViewTicketDTO>> GetAll(Guid id);
         Task<ValidationResult<ViewTicketDTO>> GetById(Guid id);
         Task<ValidationResult<string>> Create(AddTicketDTO ticket);
         Task<ValidationResult<string>> Update(EditTicketDTO ticket);

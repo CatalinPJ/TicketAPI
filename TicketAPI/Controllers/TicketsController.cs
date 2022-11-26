@@ -21,7 +21,8 @@ namespace TicketAPI.Controllers
         [Authorize]
         public ActionResult<IList<ViewTicketDTO>> GetAll()
         {
-            var getResult = _ticketService.GetAll();
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var getResult = _ticketService.GetAll(Guid.Parse(userId));
             if (getResult.IsSuccess)
             {
                 return Ok(getResult.Result);
@@ -46,6 +47,8 @@ namespace TicketAPI.Controllers
         [Authorize]
         public async Task<ActionResult<string>> Create(AddTicketDTO addTicketDTO)
         {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            addTicketDTO.UserId = Guid.Parse(userId);
             var createResult = await _ticketService.Create(addTicketDTO);
             if (createResult.IsSuccess)
             {
