@@ -9,7 +9,9 @@ namespace TicketAPI.Persistence.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid Id { get; set; }
-        public string Name { get; set; }
+        public string Subject { get; set; }
+        public string Customer { get; set; }
+        public string Description { get; set; }
         public Guid PriorityId { get; set; }
         public Priority Priority { get; set; }
         public Guid ServiceTypeId { get; set; }
@@ -19,5 +21,6 @@ namespace TicketAPI.Persistence.Models
         public Guid StatusId { get; set; }
         public TicketStatus Status { get; set; }
         public DateTimeOffset CreatedOn { get; set; }
+        public DateTimeOffset ClosedOn { get; set; }
     }
 }
