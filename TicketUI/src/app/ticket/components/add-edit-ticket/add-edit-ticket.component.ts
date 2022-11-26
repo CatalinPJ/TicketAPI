@@ -40,7 +40,6 @@ export class AddEditTicketComponent implements OnInit {
   }
 
   onSave() {
-    console.log(this.ticket);
     if (this.ticket.id) {
       this.ticketService.update(this.ticket).subscribe((o) => {
         this.router.navigate([``]);

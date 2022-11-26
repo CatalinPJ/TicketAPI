@@ -26,7 +26,7 @@ namespace TicketAPI.Services.Implementations
             var user = await _userRepository.FirstOrDefaultAsync(o => o.Username == registerUserDTO.Username);
             if (user is not null)
             {
-                return new ValidationResult<string> { IsSuccess = false, Result = "An user with the same name already exists" };
+                return new ValidationResult<string> { IsSuccess = false, ErrorDetails = new ErrorDetails { Message = "An user with the same name already exists", StatusCode = StatusCodes.Status400BadRequest } };
             }
 
             user = GetRegisteredUser(registerUserDTO);

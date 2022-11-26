@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { TicketModule } from './ticket/ticket.module';
+import { ErrorCatchingInterceptor } from './_common/interceptors/error-catching.interceptor';
 import { TokenInterceptor } from './_common/interceptors/token-interceptor';
 import { SharedModule } from './_common/shared.module';
 
@@ -20,6 +21,11 @@ import { SharedModule } from './_common/shared.module';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorCatchingInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

@@ -19,8 +19,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   onFormSubmit(e: any) {
-    console.log(this.loginForm);
-
     if (!this.loginForm.username) {
       this.errorMessage = 'Username cannot be empty';
       return;
@@ -33,15 +31,12 @@ export class LoginComponent implements OnInit {
 
     this.authService.login(this.loginForm).subscribe(
       (o) => {
-        console.log(o);
         this.router.navigate(['']);
       },
       (err) => {
         this.errorMessage = err.error;
-        console.log(err.error);
       }
     );
-    //
   }
 
   navigateToRegister(e: any) {
